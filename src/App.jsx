@@ -1,7 +1,14 @@
+import BigNews from './components/BigNews';
+import Footer from './components/Footer';
+import StayProductive from './components/StayProductive';
+import './index.css';
+
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-100">
-      <h1 className="text-4xl font-bold text-indigo-600">Rewards Clone</h1>
+    <div className="">
+      <BigNews />
+      <StayProductive />
+      <Footer />
     </div>
   );
 }
