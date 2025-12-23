@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect } from 'react';
 
 const StarRating = () => (
@@ -100,11 +101,18 @@ const testimonials = [
   },
 ];
 
+const getSliderConfig = (width) => {
+  if (width < 768) {
+    return { cardsPerView: 1, dots: 5 };
+  }
+  if (width < 1024) {
+    return { cardsPerView: 2, dots: 4 };
+  }
+  return { cardsPerView: 3, dots: 3 };
+};
+
 const TestimonialCard = ({ text, name, role, bgColor }) => (
-  <div
-    className="p-6 rounded-xl shadow-md flex flex-col justify-between h-full min-h-147.5"
-    style={{ backgroundColor: bgColor }}
-  >
+  <div className="p-6 rounded-xl shadow-md flex flex-col" style={{ backgroundColor: bgColor }}>
     <p className="text-[24px] font-semibold mb-4 font-manrope">{text}</p>
     <div>
       <StarRating />
@@ -118,28 +126,57 @@ const TestimonialCard = ({ text, name, role, bgColor }) => (
 
 const JoinCommunity = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [sliderConfig, setSliderConfig] = useState(() =>
+    typeof window !== 'undefined'
+      ? getSliderConfig(window.innerWidth)
+      : { cardsPerView: 3, dots: 3 }
+  );
 
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    const handleResize = () => {
+      setSliderConfig(getSliderConfig(window.innerWidth));
+      setCurrentIndex(0);
+    };
 
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-    }, 5000);
+      handleNext();
+    }, 4000);
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+  }, [currentIndex]);
+
+  const handleNext = () => {
+    if (isTransitioning) return;
+
+    setIsTransitioning(true);
+    setCurrentIndex((prev) => prev + 1);
+  };
+
+  const handleTransitionEnd = () => {
+    setIsTransitioning(false);
+
+    if (currentIndex >= testimonials.length) {
+      setCurrentIndex(0);
+    }
+  };
 
   const goToSlide = (index) => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     setCurrentIndex(index);
-    setIsAutoPlaying(false);
-    setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
-  const getVisibleTestimonials = () => {
-    const testimonialsCopy = [...testimonials, ...testimonials];
-    return testimonialsCopy.slice(currentIndex, currentIndex + 4);
-  };
+  const extendedTestimonials = [
+    ...testimonials,
+    ...testimonials.slice(0, sliderConfig.cardsPerView),
+  ];
+  const slideWidth = 100 / sliderConfig.cardsPerView;
 
   return (
     <section className="mb-16 px-3.5">
@@ -170,16 +207,23 @@ const JoinCommunity = () => {
 
       <div className="flex justify-center">
         <div className="w-full md:max-w-[80%]">
-          {/* Testimonials Slider */}
           <div className="relative overflow-hidden">
             <div
-              className="flex transition-transform duration-500 ease-in-out gap-7.5"
+              className="flex gap-7.5"
               style={{
-                transform: `translateX(-${(currentIndex % testimonials.length) * (100 / 4)}%)`,
+                transform: `translateX(calc(-${currentIndex * slideWidth}% - ${
+                  currentIndex * 30
+                }px))`,
+                transition: isTransitioning ? 'transform 500ms ease-in-out' : 'none',
               }}
+              onTransitionEnd={handleTransitionEnd}
             >
-              {getVisibleTestimonials().map((testimonial, index) => (
-                <div key={`${testimonial.id}-${index}`} className="min-w-[calc(25%-22.5px)]">
+              {extendedTestimonials.map((testimonial, index) => (
+                <div
+                  key={`${testimonial.id}-${index}`}
+                  className="shrink-0"
+                  style={{ width: `calc(${slideWidth}% - 20px)` }}
+                >
                   <TestimonialCard
                     text={testimonial.text}
                     name={testimonial.name}
@@ -190,17 +234,15 @@ const JoinCommunity = () => {
               ))}
             </div>
           </div>
-
-          {/* Pagination Dots */}
           <div className="flex justify-center gap-2 mt-6">
-            {testimonials.map((_, index) => (
+            {Array.from({ length: sliderConfig.dots }).map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  index === currentIndex % testimonials.length
-                    ? 'bg-black w-6'
-                    : 'bg-gray-300 hover:bg-gray-400'
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  index === currentIndex % sliderConfig.dots
+                    ? 'bg-black w-2'
+                    : 'bg-gray-300 hover:bg-gray-400 w-2'
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />

@@ -88,7 +88,7 @@ const FAQItem = ({ question, answer, isOpen, onToggle }) => {
         }}
       >
         <div
-          className="flex items-center gap-3 cursor-pointer"
+          className="flex items-start gap-3 cursor-pointer"
           role="button"
           aria-expanded={isOpen}
           aria-disabled="false"
@@ -101,7 +101,7 @@ const FAQItem = ({ question, answer, isOpen, onToggle }) => {
             }
           }}
         >
-          <div className="shrink-0">
+          <div className="shrink-0 pt-2">
             <span
               role="img"
               aria-label="caret-right"
