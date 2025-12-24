@@ -37,7 +37,7 @@ const LandingPage = () => {
             <OrganizeDiscoverAndEarnOnTheGo />
             <SimpleRewardingCalm />
             <JoinCommunity />
-            <FAQS />
+            <FAQS activeTab={activeTab} />
             <StayProductive />
           </>
         )}
@@ -53,6 +53,7 @@ const LandingPage = () => {
             <WhySubscribeFlowva />
             <GrowthPlans />
             <HowItWorks />
+            <FAQS activeTab={activeTab} />
           </>
         )}
       </AnimatedSection>

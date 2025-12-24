@@ -64,6 +64,69 @@ const faqData = [
       'You can earn points for consistent usage, referrals, and achieving productivity milestones, which can be redeemed for discounts, premium features, and more.',
   },
 ];
+const faqData2 = [
+  {
+    id: 1,
+    question: 'What is Flowva and who are your users?',
+    answer:
+      'Flowva is a curated platform for tech-savvy freelancers, remote workers, and professionals. Our users actively manage their tool libraries, try new software, and engage meaningfully with brand features. Your subscription gives you direct access to this verified, engaged audience.',
+  },
+  {
+    id: 2,
+    question: 'Can I run multiple features at once?',
+    answer:
+      'Yes! The number of features you can run depends on your subscription tier. Launch allows 1–2 features per month, Accelerate allows 3–5, and Dominate provides unlimited features.',
+  },
+  {
+    id: 3,
+    question: 'Can I target specific types of users?',
+    answer:
+      'Yes. You can target users by role, and skill set to maximize engagement and relevance.',
+  },
+  {
+    id: 4,
+    question: 'What happens when Early-Bird pricing ends?',
+    answer:
+      'Your rate is locked in forever. New customers will pay standard rates once we reach 50,000 users.',
+    defaultOpen: true,
+  },
+  {
+    id: 5,
+    question: 'Can I try before I buy?',
+    answer:
+      'We offer flexible month-to-month billing so you can cancel anytime if it’s not working for you.',
+  },
+  {
+    id: 6,
+    question: 'How does the subscription work?',
+    answer:
+      'Brands pay a monthly subscription based on the tier they select. Your subscription includes the ability to run features, provide perks and discounts to users, and track engagement — all without additional fees.',
+  },
+  {
+    id: 7,
+    question: 'How are users rewarded?',
+    answer:
+      'Brands handle all perks, discounts, and rewards directly. Users earn these rewards by engaging with your features, such as trying a tool or providing feedback, ensuring meaningful participation.',
+  },
+  {
+    id: 8,
+    question: 'What is optional premium support?',
+    answer:
+      'Premium support allows Flowva’s team to manage and optimize your features for high impact. This includes advanced analytics, feature strategy, and priority placement within the platform.',
+  },
+  {
+    id: 9,
+    question: 'Can I switch plans anytime?',
+    answer:
+      'Yes! Upgrade or downgrade anytime through your dashboard. Changes take effect immediately.',
+  },
+  {
+    id: 10,
+    question: 'What counts as a “featured campaign”?',
+    answer:
+      'Each campaign features your tool across designated placements for 30 days. You control messaging, perks, and targeting through your dashboard.',
+  },
+];
 
 const FAQItem = ({ question, answer, isOpen, onToggle }) => {
   const contentRef = useRef(null);
@@ -145,7 +208,7 @@ const FAQItem = ({ question, answer, isOpen, onToggle }) => {
   );
 };
 
-const FAQS = () => {
+const FAQS = ({ activeTab }) => {
   const [openItems, setOpenItems] = useState(
     faqData.reduce((acc, faq) => {
       if (faq.defaultOpen) {
@@ -162,6 +225,8 @@ const FAQS = () => {
     }));
   };
 
+  const data = activeTab === 'users' ? faqData : faqData2;
+
   return (
     <section className="flex justify-center my-20 px-3.5">
       <div className="w-full md:max-w-[80%]">
@@ -169,7 +234,7 @@ const FAQS = () => {
           NEED ANSWERS?
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-manrope">
-          {faqData.map((faq) => (
+          {data.map((faq) => (
             <FAQItem
               key={faq.id}
               question={faq.question}
