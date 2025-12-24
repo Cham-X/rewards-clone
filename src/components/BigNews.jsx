@@ -1,5 +1,3 @@
-import React from 'react';
-
 const BigNews = () => {
   return (
     <div class=" bg-black text-white  flex w-full text-xs font-manrope md:text-sm h-14 items-center px-3 ">

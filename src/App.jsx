@@ -1,26 +1,30 @@
-import BigNews from './components/BigNews';
-import FAQS from './components/FAQS';
-import Footer from './components/Footer';
-import JoinCommunity from './components/JoinCommunity';
-import OrganizeDiscoverAndEarnOnTheGo from './components/OrganizeDiscoverAndEarnOnTheGoal';
-import SimpleRewardingCalm from './components/SimpleRewardingCalm';
-import StatAndParagraphText from './components/Stat';
-import StayProductive from './components/StayProductive';
-import './index.css';
+import {
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+} from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
+import Layout from './layouts/Layout';
 
 function App() {
-  return (
-    <div className="">
-      <BigNews />
-      <StatAndParagraphText />
-      <OrganizeDiscoverAndEarnOnTheGo />
-      <SimpleRewardingCalm />
-      <JoinCommunity />
-      <FAQS />
-      <StayProductive />
-      <Footer />
-    </div>
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <>
+        <Route
+          path="/"
+          element={<Layout />}
+          // errorElement={<ErrorPage />}
+          key="root-layout"
+        >
+          <Route index element={<LandingPage />} key="landing-page" />
+        </Route>
+        <Route index element={<LandingPage />} key="landing-page" />
+      </>
+    )
   );
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;
