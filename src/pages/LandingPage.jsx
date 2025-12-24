@@ -16,6 +16,9 @@ import HeroSection2 from '../components/landingPage/HeroSection2';
 import AnimatingCompanies from '../components/landingPage/AnimatingCompanies';
 import TrustedBrands from '../components/landingPage/TrustedBrand';
 import AmplifyBrandSuccess from '../components/landingPage/AmplifyBrandSuccess';
+import WhySubscribeFlowva from '../components/landingPage/WhySubscribeFlowva';
+import GrowthPlans from '../components/landingPage/GrowthPlan';
+import HowItWorks from '../components/landingPage/HowItWorks';
 
 const LandingPage = () => {
   const [activeTab, setActiveTab] = useState('users');
@@ -47,6 +50,9 @@ const LandingPage = () => {
             <AnimatingCompanies />
             <TrustedBrands />
             <AmplifyBrandSuccess />
+            <WhySubscribeFlowva />
+            <GrowthPlans />
+            <HowItWorks />
           </>
         )}
       </AnimatedSection>
