@@ -119,7 +119,7 @@ const SuccessStories = () => {
   }, []);
 
   return (
-    <section className="mb-16 px-[14px]">
+    <section className="mb-16 px-3.5">
       <div className="flex justify-center">
         <HeartIcon />
       </div>

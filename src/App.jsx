@@ -6,6 +6,9 @@ import {
 } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import Layout from './layouts/Layout';
+import AuthLayout from './layouts/AuthLayout';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
 
 function App() {
   const router = createBrowserRouter(
@@ -18,8 +21,13 @@ function App() {
           key="root-layout"
         >
           <Route index element={<LandingPage />} key="landing-page" />
+
+          {/* Authentication Routes */}
+          <Route path="/" element={<AuthLayout />} key="auth-layout">
+            <Route path="sign-in" element={<SignIn />} key="sign-in" />
+            <Route path="sign-up" element={<SignUp />} key="sign-up" />
+          </Route>
         </Route>
-        <Route index element={<LandingPage />} key="landing-page" />
       </>
     )
   );
