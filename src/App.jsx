@@ -9,11 +9,13 @@ import Layout from './layouts/Layout';
 import AuthLayout from './layouts/AuthLayout';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
+        <Toaster position="top-right" />
         <Route
           path="/"
           element={<Layout />}

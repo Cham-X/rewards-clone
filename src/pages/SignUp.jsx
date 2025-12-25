@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 import GoogleIcon from '../components/GoogleIcon';
 import InputField from '../components/InputField';
 
@@ -6,6 +7,8 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -13,10 +16,23 @@ const SignUp = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login submitted:', { email, password });
+    setLoading(true);
+    setError(null);
+
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+
+    if (error) {
+      setError(error.message);
+    } else {
+      alert('Check your email to confirm your account');
+    }
+
+    setLoading(false);
   };
 
   const handleGoogleSignIn = () => {
@@ -117,9 +133,10 @@ const SignUp = () => {
                 <button
                   type="button"
                   onClick={handleSubmit}
+                  disabled={loading}
                   className="w-full h-13.75 gap-2 flex justify-center text-base items-center p-2.75 text-center bg-[#9013FE] text-white font-medium border-none transition-colors ease-linear duration-200 rounded-[100px] hover:bg-[#6D28D9] cursor-pointer"
                 >
-                  Sign Up Account
+                  {loading ? 'Creating account...' : 'Sign Up Account'}
                 </button>
               </div>
 
