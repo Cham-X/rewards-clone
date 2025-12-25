@@ -6,7 +6,7 @@ const GrowthPlans = () => {
       <div className="w-full md:max-w-6xl mx-auto md:px-6 grid md:grid-cols-3 gap-8 font-manrope">
         {/* Launch */}
         <div
-          className="w-full md:max-w-[410px] relative h-auto rounded-[24px] shadow-lg p-6 flex flex-col justify-between border"
+          className="w-full md:max-w-102.5 relative h-auto rounded-3xl shadow-lg p-6 flex flex-col justify-between border"
           style={{
             backgroundColor: 'rgb(249, 249, 249)',
             color: 'black',
@@ -76,7 +76,7 @@ const GrowthPlans = () => {
 
         {/* Accelerate */}
         <div
-          className="w-full md:max-w-[410px] relative h-auto rounded-[24px] shadow-lg p-6 flex flex-col justify-between border"
+          className="w-full md:max-w-102.5 relative h-auto rounded-3xl shadow-lg p-6 flex flex-col justify-between border"
           style={{
             backgroundColor: 'rgb(107, 22, 202)',
             color: 'white',
@@ -84,7 +84,7 @@ const GrowthPlans = () => {
           }}
         >
           <div>
-            <div className="absolute p-[8px_16px] rounded-bl-[24px] text-[#9013FE] rounded-tr-[24px] bg-white top-[2px] right-[2px]">
+            <div className="absolute p-[8px_16px] rounded-bl-3xl text-[#9013FE] rounded-tr-3xl bg-white top-0.5 right-0.5">
               Most Popular
             </div>
 
@@ -96,7 +96,7 @@ const GrowthPlans = () => {
             <p className="text-sm font-semibold">Save 20% - $2,400/year </p>
 
             <button
-              className="mt-10 w-full relative h-[74px] text-sm font-bold rounded-[100px] border p-[6px]"
+              className="mt-10 w-full relative h-18.5 text-sm font-bold rounded-[100px] border p-1.5 transition-all ease-linear duration-200 hover:scale-[1.05]"
               tabIndex={0}
               style={{ borderColor: 'rgba(255, 255, 255, 0.16)' }}
             >
@@ -147,7 +147,7 @@ const GrowthPlans = () => {
 
         {/* Dominate */}
         <div
-          className="w-full md:max-w-[410px] relative h-auto rounded-[24px] shadow-lg p-6 flex flex-col justify-between border"
+          className="w-full md:max-w-102.5 relative h-auto rounded-3xl shadow-lg p-6 flex flex-col justify-between border"
           style={{
             backgroundColor: 'rgb(249, 249, 249)',
             color: 'black',
@@ -163,7 +163,7 @@ const GrowthPlans = () => {
             <p className="text-sm font-semibold">Save 20% - $4,320/year </p>
 
             <button
-              className="mt-10 w-full relative h-[74px] text-sm font-bold rounded-[100px] border p-[6px]"
+              className="mt-10 w-full relative h-18.5 text-sm font-bold rounded-[100px] border p-1.5 transition-all ease-linear duration-200 hover:scale-[1.05]"
               tabIndex={0}
               style={{ borderColor: 'rgba(0, 0, 0, 0.16)' }}
             >

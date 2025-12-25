@@ -19,6 +19,8 @@ import AmplifyBrandSuccess from '../components/landingPage/AmplifyBrandSuccess';
 import WhySubscribeFlowva from '../components/landingPage/WhySubscribeFlowva';
 import GrowthPlans from '../components/landingPage/GrowthPlan';
 import HowItWorks from '../components/landingPage/HowItWorks';
+import StartCampaign from '../components/landingPage/StartCampaign';
+import SuccessStories from '../components/landingPage/SuccessStory';
 
 const LandingPage = () => {
   const [activeTab, setActiveTab] = useState('users');
@@ -53,7 +55,9 @@ const LandingPage = () => {
             <WhySubscribeFlowva />
             <GrowthPlans />
             <HowItWorks />
+            <SuccessStories />
             <FAQS activeTab={activeTab} />
+            <StartCampaign />
           </>
         )}
       </AnimatedSection>
