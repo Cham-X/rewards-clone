@@ -45,13 +45,13 @@ const AuthButtons = () => {
     <div className="w-48.75 font-manrope flex items-center gap-8 h-10">
       <button className="w-21 h-10 text-sm font-bold border-[#9013FE1A] rounded-[100px] border p-1">
         <div className="h-full w-full flex justify-center items-center px-4 transition-all ease-linear duration-200 rounded-[100px] bg-white hover:bg-[#111111] hover:shadow-[0px_2px_4px_0px_#0000001A,0px_6px_6px_0px_#00000017,0px_14px_9px_0px_#0000000D,0px_26px_10px_0px_#00000003,0px_40px_11px_0px_#00000000,-4px_13px_19px_0px_#ECD6FF80_inset] hover:text-white relative shadow-[0px_2px_4px_0px_#0000001A]">
-          Login
+          <a href="/sign-in">Login</a>
         </div>
       </button>
 
       <button className="w-21 font-manrope h-10 text-sm font-bold border-[#9013FE1A] rounded-[100px] border p-1">
         <div className="h-full flex items-center justify-center w-full whitespace-nowrap px-4 rounded-[100px] relative bg-[#111111] hover:bg-[#b362fae3] transition-all ease-linear duration-200 text-white shadow-[0px_2px_4px_0px_#0000001A,0px_6px_6px_0px_#00000017,0px_14px_9px_0px_#0000000D,0px_26px_10px_0px_#00000003,0px_40px_11px_0px_#00000000,-4px_13px_19px_0px_#ECD6FF80_inset]">
-          Sign up
+          <a href="/sign-up">Sign up</a>
         </div>
       </button>
     </div>
@@ -129,10 +129,10 @@ const MobileNav = () => {
           </ul>
           <div className="mt-4 space-y-2">
             <button className="w-full py-2 border border-[#9013FE1A] rounded-full text-sm font-bold">
-              Login
+              <a href="/sign-in">Login</a>
             </button>
             <button className="w-full py-2 bg-[#111111] text-white rounded-full text-sm font-bold">
-              Sign up
+              <a href="/sign-up">Sign up</a>
             </button>
           </div>
         </div>
