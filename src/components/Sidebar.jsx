@@ -1,24 +1,12 @@
-import React, { useState } from 'react';
-import {
-  Home,
-  Compass,
-  Box,
-  Layers,
-  CreditCard,
-  Gem,
-  Settings,
-  Bell,
-  Menu,
-  ArrowRight,
-  ExternalLink,
-  Plus,
-  Star,
-} from 'lucide-react';
+import { useLocation, Link } from 'react-router-dom';
+import { Home, Compass, Box, Layers, CreditCard, Gem, Settings } from 'lucide-react';
 
 // Sidebar Component
 const Sidebar = ({ isOpen, toggleSidebar }) => {
+  const location = useLocation();
+
   const menuItems = [
-    { icon: Home, label: 'Home', active: true, href: '/dashboard' },
+    { icon: Home, label: 'Home', href: '/dashboard' },
     { icon: Compass, label: 'Discover', href: '/dashboard/discover' },
     { icon: Box, label: 'Library', href: '/dashboard/library' },
     { icon: Layers, label: 'Tech Stack', href: '/dashboard/tech-stack' },
@@ -26,6 +14,10 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     { icon: Gem, label: 'Rewards Hub', href: '/dashboard/earn-rewards' },
     { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
   ];
+
+  const isActive = (path) => {
+    return location.pathname === path;
+  };
 
   return (
     <>
@@ -58,15 +50,17 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             <ul>
               {menuItems.map((item, index) => {
                 const Icon = item.icon;
+                const active = isActive(item.href);
                 return (
                   <li key={index}>
-                    <a
-                      href={item.href}
+                    <Link
+                      to={item.href}
+                      onClick={() => toggleSidebar && toggleSidebar()}
                       className={`
                         flex items-center gap-3 px-4 p-3 mb-2 rounded-lg cursor-pointer
                         transition-all duration-200
                         ${
-                          item.active
+                          active
                             ? 'bg-purple-100 text-purple-600'
                             : 'text-black hover:bg-purple-50 hover:text-purple-600'
                         }
@@ -74,7 +68,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                     >
                       <Icon size={20} />
                       <span className="tracking-wide truncate">{item.label}</span>
-                    </a>
+                    </Link>
                   </li>
                 );
               })}
