@@ -10,12 +10,12 @@ import AuthLayout from './layouts/AuthLayout';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import { Toaster } from 'react-hot-toast';
+import AuthCallback from './pages/AuthCallback';
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Toaster position="top-right" />
         <Route
           path="/"
           element={<Layout />}
@@ -28,13 +28,19 @@ function App() {
           <Route path="/" element={<AuthLayout />} key="auth-layout">
             <Route path="sign-in" element={<SignIn />} key="sign-in" />
             <Route path="sign-up" element={<SignUp />} key="sign-up" />
+            <Route path="/auth/callback" element={<AuthCallback />} key="auth-callback" />
           </Route>
         </Route>
       </>
     )
   );
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <Toaster position="top-right" />
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;
