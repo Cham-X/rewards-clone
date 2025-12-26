@@ -1,0 +1,111 @@
+import React, { useState } from 'react';
+import {
+  Home,
+  Compass,
+  Box,
+  Layers,
+  CreditCard,
+  Gem,
+  Settings,
+  Bell,
+  Menu,
+  ArrowRight,
+  ExternalLink,
+  Plus,
+  Star,
+} from 'lucide-react';
+
+// Sidebar Component
+const Sidebar = ({ isOpen, toggleSidebar }) => {
+  const menuItems = [
+    { icon: Home, label: 'Home', active: true, href: '/dashboard' },
+    { icon: Compass, label: 'Discover', href: '/dashboard/discover' },
+    { icon: Box, label: 'Library', href: '/dashboard/library' },
+    { icon: Layers, label: 'Tech Stack', href: '/dashboard/tech-stack' },
+    { icon: CreditCard, label: 'Subscriptions', href: '/dashboard/subscriptions' },
+    { icon: Gem, label: 'Rewards Hub', href: '/dashboard/earn-rewards' },
+    { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
+  ];
+
+  return (
+    <>
+      {/* Mobile Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={toggleSidebar}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`
+        fixed lg:static inset-y-0 left-0 z-50
+        w-72 bg-white shadow-md border-r border-black/10
+        transform transition-transform duration-300 ease-in-out
+        ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        flex flex-col h-screen
+      `}
+      >
+        <div className="flex flex-col h-full">
+          {/* Logo */}
+          <div className="p-2 px-7 my-2 flex justify-start">
+            <img src="/assets/flowva_logo-xVpZI3-U.png" alt="Flowva Logo" className="h-15" />
+          </div>
+
+          {/* Navigation */}
+          <nav className="grow px-4">
+            <ul>
+              {menuItems.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <li key={index}>
+                    <a
+                      href={item.href}
+                      className={`
+                        flex items-center gap-3 px-4 p-3 mb-2 rounded-lg cursor-pointer
+                        transition-all duration-200
+                        ${
+                          item.active
+                            ? 'bg-purple-100 text-purple-600'
+                            : 'text-black hover:bg-purple-50 hover:text-purple-600'
+                        }
+                      `}
+                    >
+                      <Icon size={20} />
+                      <span className="tracking-wide truncate">{item.label}</span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+
+          {/* User Profile */}
+          <div className="mt-auto py-3 relative flex justify-center">
+            <div className="absolute top-0 left-4 right-4 border-t border-gray-400" />
+            <div className="w-full flex items-center justify-between px-4">
+              <button className="flex items-center border-none">
+                <div className="w-10 h-10 relative overflow-hidden rounded-full font-semibold mr-3 flex items-center justify-center text-purple-600 bg-purple-100">
+                  <img
+                    src="https://lh3.googleusercontent.com/a/ACg8ocKEPMw1OIlnO52rggGz1vLFMf5mt-7s8ggpEDVL5gIUuleRAnU=s96-c"
+                    alt="User avatar"
+                    className="h-full w-full rounded-full object-cover"
+                  />
+                </div>
+                <div className="text-start">
+                  <span className="text-sm font-semibold block">Hjjjj</span>
+                  <p className="text-xs text-gray-500 truncate max-w-38.25">
+                    zakariyyahshamsudeen@gmail.com
+                  </p>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </>
+  );
+};
+
+export default Sidebar;

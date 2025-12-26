@@ -7,12 +7,14 @@ import {
 import LandingPage from './pages/LandingPage';
 import Layout from './layouts/Layout';
 import AuthLayout from './layouts/AuthLayout';
+import DashboardLayout from './layouts/DashboardLayout';
 import SignIn from './pages/Auth/SignIn';
 import SignUp from './pages/Auth/SignUp';
 import { Toaster } from 'react-hot-toast';
 import AuthCallback from './pages/Auth/AuthCallback';
 import ForgotPassword from './pages/Auth/ForgotPassword';
 import ResetPassword from './pages/Auth/ResetPassword';
+import HomePage from './pages/DashBoard/Home';
 
 function App() {
   const router = createBrowserRouter(
@@ -33,6 +35,10 @@ function App() {
             <Route path="/auth/callback" element={<AuthCallback />} key="auth-callback" />
             <Route path="forgot-password" element={<ForgotPassword />} key="forgot-password" />
             <Route path="reset-password" element={<ResetPassword />} key="reset-password" />
+          </Route>
+
+          <Route path="/dashboard" element={<DashboardLayout />} key="dashboard-layout">
+            <Route path="/dashboard" element={<HomePage />} key="dashboard-home" />
           </Route>
         </Route>
       </>
