@@ -1,19 +1,18 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
-import GoogleIcon from '../components/GoogleIcon';
-import InputField from '../components/InputField';
+import { supabase } from '../../lib/supabase';
 import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
-const SignUp = () => {
-  const [email, setEmail] = useState('');
+const ResetPassword = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-  const [response, setResponse] = useState({ type: '', message: '' }); // 'success' or 'error'
+  const [response, setResponse] = useState({ type: '', message: '' });
   const [mounted, setMounted] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 50);
@@ -23,13 +22,6 @@ const SignUp = () => {
   // Validation function
   const validateForm = () => {
     const newErrors = {};
-
-    // Email validation
-    if (!email) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = 'Please enter a valid email address';
-    }
 
     // Password validation
     if (!password) {
@@ -63,51 +55,31 @@ const SignUp = () => {
     setResponse({ type: '', message: '' });
 
     try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-        },
+      const { data, error } = await supabase.auth.updateUser({
+        password: password,
       });
 
       if (error) {
-        setResponse({ type: 'error', message: error.message || 'Failed to create account' });
-        toast.error(error.message || 'Failed to create account');
-        setErrors({ submit: error.message });
+        setResponse({ type: 'error', message: error.message || 'Failed to reset password' });
+        toast.error(error.message || 'Failed to reset password');
       } else {
-        setResponse({ type: 'success', message: 'Account created! Check your email to verify.' });
-        toast.success('Account created! Check your email to verify.');
-        setEmail('');
-        setPassword('');
-        setConfirmPassword('');
+        setResponse({
+          type: 'success',
+          message: 'Password reset successful! Redirecting to sign in...',
+        });
+        toast.success('Password reset successful!');
+
+        // Redirect to sign in after 2 seconds
+        setTimeout(() => {
+          navigate('/sign-in');
+        }, 2000);
       }
     } catch (err) {
       setResponse({ type: 'error', message: 'An unexpected error occurred' });
       toast.error('An unexpected error occurred');
-      console.error('Signup error:', err);
+      console.error('Reset password error:', err);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleGoogleSignIn = async () => {
-    try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-        },
-      });
-
-      if (error) {
-        setResponse({ type: 'error', message: error.message || 'Failed to sign in with Google' });
-        toast.error(error.message || 'Failed to sign in with Google');
-      }
-    } catch (err) {
-      setResponse({ type: 'error', message: 'An unexpected error occurred' });
-      toast.error('An unexpected error occurred');
-      console.error('Google sign-in error:', err);
     }
   };
 
@@ -120,13 +92,29 @@ const SignUp = () => {
       >
         <div className="flex justify-center w-full max-w-105">
           <div className="w-full shadow-[0_4px_6px_rgba(0,0,0,0.1)] py-7.5 px-5 lg:p-10 bg-white rounded-[10px] h-fit">
-            {/* Header */}
+            {/* Header with Icon */}
             <div className="mb-7.5">
+              <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-[#F5F3FF] rounded-full">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  className="text-[#9013fe] w-8 h-8"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  />
+                </svg>
+              </div>
               <h1 className="text-2xl text-[#6D28D9] font-semibold mb-2 text-center w-full">
-                Sign up to flowva
+                Reset Your Password
               </h1>
               <p className="text-sm text-[#6B7280] text-center w-full">
-                Create an account to receive personalized recommendations
+                Enter a new password for your account
               </p>
             </div>
 
@@ -166,20 +154,6 @@ const SignUp = () => {
             {/* Form */}
             <div className="w-full">
               <div className="w-full text-[#111827]">
-                {/* Email Field */}
-                <InputField
-                  id="email"
-                  type="email"
-                  label="Email"
-                  placeholder="user@example.com"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    if (errors.email) setErrors({ ...errors, email: '' });
-                  }}
-                  error={errors.email}
-                />
-
                 {/* Password Field */}
                 <label htmlFor="password" className="block text-sm font-medium mb-2 text-[#111827]">
                   Password
@@ -189,8 +163,9 @@ const SignUp = () => {
                     <input
                       type={showPassword ? 'text' : 'password'}
                       id="password"
+                      name="password"
                       placeholder="••••••••"
-                      className={`peer w-full border py-2.5 text-base px-3.5 ${
+                      className={`peer w-full border text-base py-2.5 px-3.5 ${
                         errors.password ? 'border-red-500' : 'border-[#EDE9FE]'
                       } transition-all ease-linear duration-200 rounded-md outline-none focus:border-[#9013fe]`}
                       required
@@ -216,7 +191,7 @@ const SignUp = () => {
 
                 {/* Confirm Password Field */}
                 <label
-                  htmlFor="confirmPassword"
+                  htmlFor="confirm-password"
                   className="block text-sm font-medium mb-2 text-[#111827]"
                 >
                   Confirm Password
@@ -225,7 +200,8 @@ const SignUp = () => {
                   <div className="relative group w-full">
                     <input
                       type={showConfirmPassword ? 'text' : 'password'}
-                      id="confirmPassword"
+                      id="confirm-password"
+                      name="confirmPassword"
                       placeholder="••••••••"
                       className={`peer w-full border py-2.5 text-base px-3.5 ${
                         errors.confirmPassword ? 'border-red-500' : 'border-[#EDE9FE]'
@@ -256,7 +232,7 @@ const SignUp = () => {
                   type="button"
                   onClick={handleSubmit}
                   disabled={loading}
-                  className="w-full h-13.75 gap-2 flex justify-center text-base items-center p-2.75 text-center bg-[#9013FE] text-white font-medium border-none transition-colors ease-linear duration-200 rounded-[100px] hover:bg-[#6D28D9] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full p-2.75 gap-2 text-base h-13.75 flex justify-center items-center text-center bg-[#9013FE] text-white font-medium border-none transition-colors ease-linear duration-200 rounded-[100px] hover:bg-[#6D28D9] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
                   {loading ? (
                     <>
@@ -280,39 +256,23 @@ const SignUp = () => {
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         ></path>
                       </svg>
-                      <span>Sign Up</span>
+                      <span>Resetting...</span>
                     </>
                   ) : (
-                    'Sign Up'
+                    'Reset Password'
                   )}
                 </button>
               </div>
 
-              {/* Divider */}
-              <div className="relative flex items-center w-full my-5">
-                <div className="grow h-px bg-[#EDE9FE]" />
-                <span className="text-[13px] text-[#A78BFA] font-medium bg-white px-3">or</span>
-                <div className="grow h-px bg-[#EDE9FE]" />
-              </div>
-
-              {/* Google Sign In */}
-              <button
-                onClick={handleGoogleSignIn}
-                className="border py-3 px-3.5 text-sm w-full gap-2 text-[#111827] border-[#EDE9FE] rounded-md hover:bg-[#F5F3FF] transition-colors flex items-center justify-center relative cursor-pointer"
-              >
-                <GoogleIcon />
-                <span>Sign up with Google</span>
-              </button>
-
               {/* Sign In Link */}
               <div className="text-center mt-5 text-sm">
                 <p className="text-[#6B7280]">
-                  Already have an account?{' '}
+                  Remember your password?{' '}
                   <a
                     href="/sign-in"
                     className="text-[#9013fe] no-underline font-medium hover:underline cursor-pointer"
                   >
-                    Log In
+                    Sign in
                   </a>
                 </p>
               </div>
@@ -324,4 +284,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default ResetPassword;

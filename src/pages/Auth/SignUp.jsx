@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
-import GoogleIcon from '../components/GoogleIcon';
-import InputField from '../components/InputField';
+import { supabase } from '../../lib/supabase';
+import GoogleIcon from '../../components/GoogleIcon';
+import InputField from '../../components/InputField';
 import { toast } from 'react-hot-toast';
 
-const Login = () => {
+const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-  const [response, setResponse] = useState({ type: '', message: '' });
+  const [response, setResponse] = useState({ type: '', message: '' }); // 'success' or 'error'
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -36,6 +38,13 @@ const Login = () => {
       newErrors.password = 'Password must be at least 6 characters';
     }
 
+    // Confirm password validation
+    if (!confirmPassword) {
+      newErrors.confirmPassword = 'Please confirm your password';
+    } else if (password !== confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match';
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -54,24 +63,29 @@ const Login = () => {
     setResponse({ type: '', message: '' });
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
       });
 
       if (error) {
-        setResponse({ type: 'error', message: error.message || 'Failed to sign in' });
-        toast.error(error.message || 'Failed to sign in');
+        setResponse({ type: 'error', message: error.message || 'Failed to create account' });
+        toast.error(error.message || 'Failed to create account');
+        setErrors({ submit: error.message });
       } else {
-        setResponse({ type: 'success', message: 'Successfully signed in!' });
-        toast.success('Successfully signed in!');
-        // Redirect or handle successful login
-        // window.location.href = '/dashboard';
+        setResponse({ type: 'success', message: 'Account created! Check your email to verify.' });
+        toast.success('Account created! Check your email to verify.');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
       }
     } catch (err) {
       setResponse({ type: 'error', message: 'An unexpected error occurred' });
       toast.error('An unexpected error occurred');
-      console.error('Login error:', err);
+      console.error('Signup error:', err);
     } finally {
       setLoading(false);
     }
@@ -98,7 +112,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-dvh flex justify-center py-5 px-3 items-center bg-linear-to-br from-[#9013fe] to-[#6D28D9]">
+    <div className="min-h-dvh flex justify-center py-5 px-3 items-center bg-gradient-to-br from-[#9013fe] to-[#6D28D9]">
       <div
         className={`transition-all duration-700 ease-out
         ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
@@ -109,10 +123,10 @@ const Login = () => {
             {/* Header */}
             <div className="mb-7.5">
               <h1 className="text-2xl text-[#6D28D9] font-semibold mb-2 text-center w-full">
-                Log in to flowva
+                Sign up to flowva
               </h1>
               <p className="text-sm text-[#6B7280] text-center w-full">
-                Log in to receive personalized recommendations
+                Create an account to receive personalized recommendations
               </p>
             </div>
 
@@ -126,7 +140,7 @@ const Login = () => {
                 }`}
               >
                 <svg
-                  className={`w-5 h-5 shrink-0 ${
+                  className={`w-5 h-5 flex-shrink-0 ${
                     response.type === 'success' ? 'text-green-500' : 'text-red-500'
                   }`}
                   fill="currentColor"
@@ -200,13 +214,41 @@ const Login = () => {
                   )}
                 </div>
 
-                <div className="flex justify-end items-center w-full mb-2">
-                  <a
-                    className="mt-2 text-[#9013fe] no-underline text-sm font-medium hover:underline cursor-pointer"
-                    href="/forgot-password"
+                {/* Confirm Password Field */}
+                <label
+                  htmlFor="confirmPassword"
+                  className="block text-sm font-medium mb-2 text-[#111827]"
+                >
+                  Confirm Password
+                </label>
+                <div className="relative mb-5">
+                  <div className="relative group w-full">
+                    <input
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      id="confirmPassword"
+                      placeholder="••••••••"
+                      className={`peer w-full border py-2.5 text-base px-3.5 ${
+                        errors.confirmPassword ? 'border-red-500' : 'border-[#EDE9FE]'
+                      } transition-all ease-linear duration-200 rounded-md outline-none focus:border-[#9013fe]`}
+                      required
+                      value={confirmPassword}
+                      onChange={(e) => {
+                        setConfirmPassword(e.target.value);
+                        if (errors.confirmPassword) setErrors({ ...errors, confirmPassword: '' });
+                      }}
+                    />
+                    <div className="pointer-events-none absolute inset-0 rounded-md peer-focus:shadow-[0_0_0_3px_rgba(124,58,237,0.1)]" />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 border-none text-[#A78BFA] h-fit font-medium text-xs top-0 bottom-0 m-auto bg-transparent cursor-pointer"
                   >
-                    Forgot Password?
-                  </a>
+                    {showConfirmPassword ? 'Hide' : 'Show'}
+                  </button>
+                  {errors.confirmPassword && (
+                    <p className="text-red-500 text-xs mt-1">{errors.confirmPassword}</p>
+                  )}
                 </div>
 
                 {/* Submit Button */}
@@ -238,10 +280,10 @@ const Login = () => {
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         ></path>
                       </svg>
-                      <span>Signing In</span>
+                      <span>Sign Up</span>
                     </>
                   ) : (
-                    'Sign in'
+                    'Sign Up'
                   )}
                 </button>
               </div>
@@ -259,18 +301,18 @@ const Login = () => {
                 className="border py-3 px-3.5 text-sm w-full gap-2 text-[#111827] border-[#EDE9FE] rounded-md hover:bg-[#F5F3FF] transition-colors flex items-center justify-center relative cursor-pointer"
               >
                 <GoogleIcon />
-                <span>Sign in with Google</span>
+                <span>Sign up with Google</span>
               </button>
 
-              {/* Sign Up Link */}
+              {/* Sign In Link */}
               <div className="text-center mt-5 text-sm">
                 <p className="text-[#6B7280]">
-                  Don't have an account?{' '}
+                  Already have an account?{' '}
                   <a
-                    href="/sign-up"
+                    href="/sign-in"
                     className="text-[#9013fe] no-underline font-medium hover:underline cursor-pointer"
                   >
-                    Sign up
+                    Log In
                   </a>
                 </p>
               </div>
@@ -282,4 +324,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
