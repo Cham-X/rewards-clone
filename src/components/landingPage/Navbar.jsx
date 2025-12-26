@@ -86,56 +86,77 @@ const DesktopNav = () => {
 
 const MobileNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const toggleItem = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
 
   return (
-    <div className="md:hidden! flex justify-between items-center w-full">
-      <div>
-        <Logo size="mobile" />
-      </div>
+    <div className="md:hidden flex justify-between items-center w-full relative">
+      {/* Logo */}
+      <Logo size="mobile" />
 
+      {/* Menu button */}
       <button onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
-        <svg
-          width="42"
-          height="42"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-          <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-          <g id="SVGRepo_iconCarrier">
-            <g id="Menu / Menu_Alt_01">
-              <path
-                id="Vector"
-                d="M12 17H19M5 12H19M5 7H19"
-                stroke="#141B34"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></path>
-            </g>
-          </g>
+        <svg width="42" height="42" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M12 17H19M5 12H19M5 7H19"
+            stroke="#141B34"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
         </svg>
       </button>
 
+      {/* Accordion Menu */}
       {isMenuOpen && (
-        <div className="absolute top-17.5 left-0 right-0 bg-white border border-[#0000000D] rounded-2xl mx-3.5 p-4 shadow-lg">
-          <ul className="space-y-4">
-            {navItems.map((item) => (
-              <li key={item.id} className="text-[#A5A5A5] hover:text-[#9013fe] cursor-pointer">
-                {item.label}
-              </li>
-            ))}
-          </ul>
-          <div className="mt-4 space-y-2">
-            <button className="w-full py-2 border border-[#9013FE1A] rounded-full text-sm font-bold">
-              <a href="/sign-in">Login</a>
+        <aside className="absolute top-17.5 left-0 right-0 bg-white border border-[#0000000D] rounded-2xl mx-3.5 p-4 shadow-lg z-50">
+          <div className="space-y-4">
+            {navItems.map((item, index) => {
+              const isOpen = openIndex === index;
+
+              return (
+                <div key={item.id}>
+                  <button
+                    onClick={() => toggleItem(index)}
+                    className="w-full flex items-center justify-between text-left"
+                  >
+                    <span className="text-[32px] font-semibold font-[impact]">{item.label}</span>
+                    <ChevronDown
+                      size={22}
+                      className={`transition-transform duration-300 ${
+                        isOpen ? 'rotate-180' : 'rotate-0'
+                      }`}
+                    />
+                  </button>
+
+                  {/* Optional dropdown content */}
+                  {isOpen && (
+                    <div className="mt-3 pl-2 text-sm text-[#A5A5A5]">
+                      {/* Add submenu links here later */}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Auth buttons */}
+          <div className="flex mt-5 items-center gap-3 flex-col">
+            <button className="w-full h-14.25 text-sm font-bold border-[#9013FE1A] rounded-[100px] border p-1">
+              <span className="h-full flex justify-center items-center w-full p-[6px_16px] hover:bg-[#111111] hover:shadow-[0px_2px_4px_0px_#0000001A,0px_6px_6px_0px_#00000017,0px_14px_9px_0px_#0000000D,0px_26px_10px_0px_#00000003,0px_40px_11px_0px_#00000000,-4px_13px_19px_0px_#ECD6FF80_inset] hover:text-white rounded-[100px] relative shadow-[0px_2px_4px_0px_#0000001A]">
+                <a href="/sign-in">Login</a>
+              </span>
             </button>
-            <button className="w-full py-2 bg-[#111111] text-white rounded-full text-sm font-bold">
-              <a href="/sign-up">Sign up</a>
+
+            <button className="w-full h-14.25 text-sm font-bold border-[#9013FE1A] rounded-[100px] border p-1">
+              <span className="h-full flex justify-center items-center w-full whitespace-nowrap p-[6px_16px] rounded-[100px] relative bg-[#111111] hover:bg-[#b362fae3] transition-all ease-linear duration-200 text-white shadow-[0px_2px_4px_0px_#0000001A,0px_6px_6px_0px_#00000017,0px_14px_9px_0px_#0000000D,0px_26px_10px_0px_#00000003,0px_40px_11px_0px_#00000000,-4px_13px_19px_0px_#ECD6FF80_inset]">
+                <a href="/sign-up">Sign up</a>
+              </span>
             </button>
           </div>
-        </div>
+        </aside>
       )}
     </div>
   );

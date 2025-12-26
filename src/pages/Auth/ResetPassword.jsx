@@ -128,7 +128,7 @@ const ResetPassword = () => {
                 }`}
               >
                 <svg
-                  className={`w-5 h-5 flex-shrink-0 ${
+                  className={`w-5 h-5 shrink-0 ${
                     response.type === 'success' ? 'text-green-500' : 'text-red-500'
                   }`}
                   fill="currentColor"
