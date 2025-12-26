@@ -26,7 +26,10 @@ A modern landing page application for connecting tech professionals and brands, 
 
 Before you begin, ensure you have the following installed:
 - **Node.js** (v14 or higher) - [Download here](https://nodejs.org/)
-- **npm** or **yarn** package manager
+- **pnpm** package manager - [Install here](https://pnpm.io/installation)
+  ```bash
+  npm install -g pnpm
+  ```
 - **Git** - [Download here](https://git-scm.com/)
 - **Supabase Account** - [Sign up here](https://supabase.com/)
 
@@ -42,13 +45,7 @@ cd flowva
 ### Step 2: Install Dependencies
 
 ```bash
-npm install
-```
-
-Or if you're using yarn:
-
-```bash
-yarn install
+pnpm install
 ```
 
 ### Step 3: Set Up Supabase
@@ -168,7 +165,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 Install Supabase client if not already installed:
 
 ```bash
-npm install @supabase/supabase-js
+pnpm add @supabase/supabase-js
 ```
 
 ### Step 6: Set Up Assets
@@ -186,7 +183,7 @@ If the logo is missing, add your logo to this path.
 Start the development server:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 The application will open at `http://localhost:5173` (or the port shown in your terminal).
@@ -237,7 +234,7 @@ flowva/
 ### Build the Project
 
 ```bash
-npm run build
+pnpm build
 ```
 
 This creates an optimized production build in the `dist` folder.
@@ -245,7 +242,7 @@ This creates an optimized production build in the `dist` folder.
 ### Preview Production Build Locally
 
 ```bash
-npm run preview
+pnpm preview
 ```
 
 ## Deployment to Vercel
@@ -264,8 +261,8 @@ npm run preview
 ### Option 2: Deploy via Vercel CLI
 
 ```bash
-# Install Vercel CLI
-npm install -g vercel
+# Install Vercel CLI globally
+pnpm add -g vercel
 
 # Deploy
 vercel
@@ -322,16 +319,22 @@ vercel
 
 ```bash
 # Start development server
-npm run dev
+pnpm dev
 
 # Build for production
-npm run build
+pnpm build
 
 # Preview production build
-npm run preview
+pnpm preview
 
 # Run linting (if configured)
-npm run lint
+pnpm lint
+
+# Install a new package
+pnpm add package-name
+
+# Install a dev dependency
+pnpm add -D package-name
 ```
 
 ## Key Components
