@@ -35,7 +35,7 @@ const GrowthPlans = () => {
                 tabIndex={0}
                 style={{ backgroundColor: 'black', color: 'white' }}
               >
-                Start Your 3-Day Free Trial
+                <a href="/sign-up">Start Your 3-Day Free Trial</a>
               </div>
             </button>
 
@@ -105,7 +105,7 @@ const GrowthPlans = () => {
                 tabIndex={0}
                 style={{ backgroundColor: 'white', color: 'black' }}
               >
-                Get Started Now
+                <a href="/sign-up">Get Started Now</a>
               </div>
             </button>
 
@@ -172,7 +172,7 @@ const GrowthPlans = () => {
                 tabIndex={0}
                 style={{ backgroundColor: 'black', color: 'white' }}
               >
-                Get Started Now
+                <a href="/sign-up">Get Started Now</a>
               </div>
             </button>
 

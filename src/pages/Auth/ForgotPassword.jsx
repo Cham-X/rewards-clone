@@ -74,7 +74,7 @@ const ForgotPassword = () => {
         ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
       `}
       >
-        <div className="flex justify-center w-105">
+        <div className="flex justify-center w-full max-w-105">
           <div className="w-full shadow-[0_4px_6px_rgba(0,0,0,0.1)] py-7.5 px-5 lg:p-10 bg-white rounded-[10px] h-fit">
             {/* Header */}
             <div className="mb-7.5">

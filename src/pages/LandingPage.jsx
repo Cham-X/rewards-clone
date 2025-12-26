@@ -25,7 +25,7 @@ import SuccessStories from '../components/landingPage/SuccessStory';
 const LandingPage = () => {
   const [activeTab, setActiveTab] = useState('users');
   return (
-    <div className="">
+    <div className="relative">
       <BigNews />
       <Navbar />
       <TabSwitcher activeTab={activeTab} setActiveTab={setActiveTab} />

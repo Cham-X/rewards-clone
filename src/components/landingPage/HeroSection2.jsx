@@ -1,7 +1,7 @@
 const HeroSection2 = () => {
   return (
     <>
-      <h1 className="text-[40px] md:text-[72px] mt-13.75 md:mt-32.5 text-center font-[Impact] leading-[120%]">
+      <h1 className="text-[40px] md:text-[72px] mt-13.75 md:mt-32.5 text-center font-[Impact] leading-[120%] ">
         CONNECT WITH{' '}
         <span className="inline-flex px-5 rounded-[100px] text-white bg-[linear-gradient(90deg,#9013FE_0%,#FF8687_100%)]">
           TECH
