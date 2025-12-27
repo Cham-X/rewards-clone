@@ -135,12 +135,22 @@ const HomePage = () => {
     <>
       {/* Banner */}
       <div className="mt-2 mb-5">
-        <div className="bg-linear-to-r from-purple-100 to-purple-50 rounded-xl p-6 border border-purple-200">
-          <div className="flex items-start gap-4">
-            <img src="/assets/banner-img-BG9D5FJ5.png" alt="announcement" className="w-16 h-16" />
+        <div className="relative overflow-hidden bg-gradient-to-br from-purple-600 via-purple-500 to-pink-500 rounded-xl p-6 shadow-lg">
+          {/* Decorative background elements */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full -mr-32 -mt-32"></div>
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-white opacity-10 rounded-full -ml-24 -mb-24"></div>
+
+          <div className="relative flex items-center gap-6 flex-1">
+            <img
+              src="/assets/banner-img-BG9D5FJ5.png"
+              alt="announcement"
+              className="w-[120px] rounded-3xl object-cover bg-white/20 flex-shrink-0 p-3 shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
+            />
             <div>
-              <h3 className="font-bold text-lg mb-2">Big News: We're Becoming Bravoo! 🎉</h3>
-              <p className="text-sm text-gray-700">
+              <h3 className="text-[28px] font-bold mb-[5px] leading-[1.2] text-white">
+                Big News: We're Becoming Bravoo! 🎉
+              </h3>
+              <p className="text-[14px] opacity-90 leading-[1.4] text-white font-sans">
                 Bravoo a platform designed to make learning fun, simple, and truly rewarding. With
                 Bravoo, you'll complete quick, engaging missions that help you build real digital
                 skills while earning coins, prizes, gadgets, and more. Explore what's coming on our
@@ -149,10 +159,13 @@ const HomePage = () => {
                   href="https://www.joinbravoo.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="underline text-purple-600"
+                  className="underline font-semibold text-white hover:text-yellow-200 transition-colors"
                 >
                   www.joinbravoo.com
-                </a>
+                </a>{' '}
+                You'll get a sneak peek of the experience and learn how to join the growing Bravoo
+                community. We officially launch on January 10, and we're excited to have you on this
+                journey with us.
               </p>
             </div>
           </div>

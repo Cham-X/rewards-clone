@@ -3,11 +3,27 @@ import Sidebar from '../components/Sidebar';
 import { useState } from 'react';
 import { Menu } from 'lucide-react';
 import { Bell } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+
+const titles = {
+  'tech-stack': 'Tech Stack',
+  'earn-rewards': 'Rewards Hubs',
+};
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+
+  const location = useLocation();
+
+  const pathname = location.pathname;
+
+  const isDashboardRoot = pathname === '/dashboard';
+
+  const pathName = pathname.split('/').filter(Boolean)[1];
+
+  const formattedPath = pathName?.charAt(0).toUpperCase() + pathName?.slice(1);
 
   return (
     <div className="flex min-h-screen w-full bg-gray-50">
@@ -22,14 +38,20 @@ const DashboardLayout = () => {
                 <button onClick={toggleSidebar} className="lg:hidden">
                   <Menu size={28} />
                 </button>
-                <div className="flex items-center gap-1">
+                {isDashboardRoot ? (
+                  <div className="flex items-center gap-1">
+                    <h1 className="whitespace-nowrap text-xl md:text-2xl font-medium">
+                      Good afternoon,
+                    </h1>
+                    <span className="text-purple-600 text-xl md:text-2xl truncate max-w-30 md:max-w-52.5 font-medium">
+                      Hjjjj
+                    </span>
+                  </div>
+                ) : (
                   <h1 className="whitespace-nowrap text-xl md:text-2xl font-medium">
-                    Good afternoon,
+                    {titles[pathName] ?? formattedPath}
                   </h1>
-                  <span className="text-purple-600 text-xl md:text-2xl truncate max-w-30 md:max-w-52.5 font-medium">
-                    Hjjjj
-                  </span>
-                </div>
+                )}
               </div>
               <div className="mt-2">
                 <button className="relative group" aria-label="Notifications">
