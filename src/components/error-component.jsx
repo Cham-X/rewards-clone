@@ -10,7 +10,7 @@ const LoadingScreen = () => {
     <div className="flex justify-center items-center min-h-[100svh]">
       <div className="logo-loader-container">
         <div className="logo-glow-wrapper animate-pulse">
-          <img src="/assets/flowva_logo-xVpZI3-U.png" alt="Flowva Logo" className="logo-image" />
+          <img src="/assets/flowva_logo-xVpZI3-U.png" alt="Flowva Logo" className="h-15" />
           <div className="lightning-sweep"></div>
         </div>
       </div>
