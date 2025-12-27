@@ -20,7 +20,7 @@ import Library from './pages/DashBoard/Library';
 import TechStack from './pages/DashBoard/TechStack';
 import Subdcription from './pages/DashBoard/Subdcription';
 import Settings from './pages/DashBoard/Settings';
-import RewardsHub from '../RewardsHub';
+import RewardsHub from './pages/DashBoard/RewardsHub';
 
 function App() {
   const router = createBrowserRouter(
