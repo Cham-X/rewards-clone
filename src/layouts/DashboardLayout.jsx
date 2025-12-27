@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Menu } from 'lucide-react';
 import { Bell } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const titles = {
   'tech-stack': 'Tech Stack',
@@ -25,6 +26,15 @@ const DashboardLayout = () => {
 
   const formattedPath = pathName?.charAt(0).toUpperCase() + pathName?.slice(1);
 
+  const { user } = useAuth();
+
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning,';
+    if (hour < 18) return 'Good afternoon,';
+    return 'Good evening,';
+  };
+
   return (
     <div className="flex min-h-screen w-full bg-gray-50">
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
@@ -41,10 +51,10 @@ const DashboardLayout = () => {
                 {isDashboardRoot ? (
                   <div className="flex items-center gap-1">
                     <h1 className="whitespace-nowrap text-xl md:text-2xl font-medium">
-                      Good afternoon,
+                      {getGreeting()}
                     </h1>
                     <span className="text-purple-600 text-xl md:text-2xl truncate max-w-30 md:max-w-52.5 font-medium">
-                      Hjjjj
+                      {user?.user_metadata?.first_name?.trim() || ''}
                     </span>
                   </div>
                 ) : (

@@ -20,18 +20,15 @@ import Library from './pages/DashBoard/Library';
 import TechStack from './pages/DashBoard/TechStack';
 import Subdcription from './pages/DashBoard/Subdcription';
 import Settings from './pages/DashBoard/Settings';
-import RewardsHub from '../RewardsHub';
+import RewardsHub from './pages/DashBoard/RewardsHub';
+import { ErrorPage } from './components/error-component';
+import ProtectedRoute from './layouts/ProtectedRoute';
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route
-          path="/"
-          element={<Layout />}
-          // errorElement={<ErrorPage />}
-          key="root-layout"
-        >
+        <Route path="/" element={<Layout />} errorElement={<ErrorPage />} key="root-layout">
           <Route index element={<LandingPage />} key="landing-page" />
 
           {/* Authentication Routes */}
@@ -44,22 +41,28 @@ function App() {
           </Route>
 
           {/* Dashboard Routes */}
-          <Route path="/dashboard" element={<DashboardLayout />} key="dashboard-layout">
-            <Route path="/dashboard" element={<HomePage />} key="dashboard-home" />
-            <Route path="/dashboard/discover" element={<Discover />} key="dashboard-discover" />
-            <Route path="/dashboard/library" element={<Library />} key="dashboard-library" />
-            <Route path="/dashboard/tech-stack" element={<TechStack />} key="dashboard-techstack" />
-            <Route
-              path="/dashboard/subscriptions"
-              element={<Subdcription />}
-              key="dashboard-subscription"
-            />
-            <Route
-              path="/dashboard/earn-rewards"
-              element={<RewardsHub />}
-              key="dashboard-earn-rewards"
-            />
-            <Route path="/dashboard/settings" element={<Settings />} key="dashboard-settings" />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<DashboardLayout />} key="dashboard-layout">
+              <Route path="/dashboard" element={<HomePage />} key="dashboard-home" />
+              <Route path="/dashboard/discover" element={<Discover />} key="dashboard-discover" />
+              <Route path="/dashboard/library" element={<Library />} key="dashboard-library" />
+              <Route
+                path="/dashboard/tech-stack"
+                element={<TechStack />}
+                key="dashboard-techstack"
+              />
+              <Route
+                path="/dashboard/subscriptions"
+                element={<Subdcription />}
+                key="dashboard-subscription"
+              />
+              <Route
+                path="/dashboard/earn-rewards"
+                element={<RewardsHub />}
+                key="dashboard-earn-rewards"
+              />
+              <Route path="/dashboard/settings" element={<Settings />} key="dashboard-settings" />
+            </Route>
           </Route>
         </Route>
       </>

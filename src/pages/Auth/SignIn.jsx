@@ -66,7 +66,7 @@ const Login = () => {
         setResponse({ type: 'success', message: 'Successfully signed in!' });
         toast.success('Successfully signed in!');
         // Redirect or handle successful login
-        // window.location.href = '/dashboard';
+        window.location.href = '/dashboard';
       }
     } catch (err) {
       setResponse({ type: 'error', message: 'An unexpected error occurred' });
