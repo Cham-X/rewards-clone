@@ -2,6 +2,8 @@ import { useEffect, useState, useMemo } from 'react';
 import { supabase } from '../../lib/supabase';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '../../hooks/useAuth';
+import { UserIcon } from 'lucide-react';
+import { File } from 'lucide-react';
 
 const Settings = () => {
   const [user, setUser] = useState(null);
@@ -55,21 +57,24 @@ const Settings = () => {
       <div className="grid md:grid-cols-[1fr_1fr] gap-6">
         <div className="bg-white p-6 rounded-xl border border-[#E2E8F0] shadow-sm">
           <div className="flex ">
-            <div className="w-10 h-10 relative overflow-hidden rounded-full font-semibold mr-3 flex items-center justify-center text-purple-600 bg-purple-100">
-              {url ? (
-                <img
-                  src={url}
-                  alt="User avatar"
-                  className="h-full w-full rounded-full object-cover"
-                />
-              ) : (
-                <span className="uppercase">{firstName?.trim() ? firstName.charAt(0) : ''}</span>
-              )}
-            </div>
+            <UserIcon className="h-6 w-6 text-[#9013FE] mr-2" />
             <h2 className="font-semibold text-lg mb-6">Profile Information</h2>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <div className="w-10 h-10 relative overflow-hidden rounded-full font-semibold mr-3 flex items-center justify-center text-purple-600 bg-purple-100">
+                {url ? (
+                  <img
+                    src={url}
+                    alt="User avatar"
+                    className="h-full w-full rounded-full object-cover"
+                  />
+                ) : (
+                  <span className="uppercase">{firstName?.trim() ? firstName.charAt(0) : ''}</span>
+                )}
+              </div>
+            </div>
             {/* Email */}
             <div>
               <label className="text-sm block mb-1">Email Address</label>
@@ -103,9 +108,15 @@ const Settings = () => {
 
             <button
               disabled={loading}
-              className="px-4 py-3 rounded-lg text-sm font-medium text-white bg-[#9013FE] hover:bg-[#7c0fe0] disabled:opacity-60"
+              className="px-4 py-3 rounded-lg text-sm font-medium text-white bg-[#9013FE] hover:bg-[#7c0fe0] disabled:opacity-60 w-full"
             >
-              {loading ? 'Saving...' : 'Save Changes'}
+              {loading ? (
+                'Saving Change...'
+              ) : (
+                <span className="flex items-center justify-center">
+                  <File className="h-4 font-bold" /> Save Changes
+                </span>
+              )}
             </button>
           </form>
         </div>
